@@ -1,0 +1,29 @@
+<h1>My Tasks</h1>
+
+<form action="/add" method="POST">
+    <input type="text" name="content" placeholder="New task">
+    <button type="submit">Add</button>
+</form>
+
+
+<ul>
+    {% for task in tasks %}
+        <li>
+
+            {% if task.done %}
+                <s>{{ task.content }}</s>
+            {% else %}
+                {{ task.content }}
+            {% endif %}
+
+            <form action="/complete/{{ task.id }}" method="POST" style="display:inline;">
+                <button type="submit">{% if task.done %}Undo{% else %}Complete{% endif %}</button>
+            </form>
+
+            <form action="/delete/{{ task.id }}", method="POST", style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+
+        </li>
+    {% endfor %}
+</ul>

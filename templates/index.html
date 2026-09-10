@@ -1,3 +1,7 @@
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
 <h1>My Tasks</h1>
 
 <a href="/logout">Logout</a>
@@ -11,17 +15,18 @@
 <ul>
     {% for task in tasks %}
         <li>
+            <div class="task-left">
+                <form action="/complete/{{ task.id }}" method="POST" style="display:inline;">
+                    <input type="checkbox" onchange="this.form.submit()" {% if task.done %}checked{% endif %}>
+                </form>
 
-            {% if task.done %}
-                <s>{{ task.content }}</s>
-            {% else %}
-                {{ task.content }}
-            {% endif %}
-
-            <form action="/complete/{{ task.id }}" method="POST" style="display:inline;">
-                <button type="submit">{% if task.done %}Undo{% else %}Complete{% endif %}</button>
-            </form>
-
+                {% if task.done %}
+                    <s>{{ task.content }}</s>
+                {% else %}
+                    {{ task.content }}
+                {% endif %}
+            </div>
+            
             <form action="/delete/{{ task.id }}", method="POST", style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
